@@ -50,6 +50,7 @@
 
     pixels: pixels {
         compatible = "zmk,rgb-fx-pixels";
+        #pixel-cells = <1>;
     };
 
     fx_group: fx_control_group {
