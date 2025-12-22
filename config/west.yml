@@ -2,6 +2,8 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: crystalplanet
+      url-base: https://github.com/crystalplanet
       # Additional modules containing boards/shields/custom code can be listed here as well.
       # See:
       # - https://zmk.dev/docs/features/modules
@@ -14,6 +16,9 @@ manifest:
    #    revision: main 
     - name: eyelash_sofle
       url: https://github.com/a741725193/zmk-sofle
+      revision: main
+    - name: zmk-rgb-fx
+      remote: crystalplanet
       revision: main
     - name: zmk
       remote: zmkfirmware

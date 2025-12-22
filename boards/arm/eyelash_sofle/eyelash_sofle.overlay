@@ -1,0 +1,37 @@
+#include <dt-bindings/zmk/animation.h>
+
+/ {
+    chosen {
+        zmk,animation-control = &animation_control;
+    };
+
+    animations {
+        compatible = "zmk,animation-registry";
+
+        off_animation: animation_0 {
+            compatible = "zmk,animation-solid";
+            label = "SA_OFF";
+            color = <HSL(0 0 0)>;
+        };
+
+        red_esc_animation: animation_1 {
+            compatible = "zmk,animation-solid";
+            label = "SA_RED_ESC";
+            color = <HSL(0 100 50)>;
+            key-pixels = <0>; // Assuming ESC is the first key (index 0)
+        };
+    };
+
+    animation_control: animation_control {
+        compatible = "zmk,animation-control";
+        label = "Animation Control";
+        animations = <&off_animation &red_esc_animation>;
+        animation-on = <&off_animation>;
+        animation-off = <&off_animation>;
+        layer-triggers {
+            compatible = "zmk,animation-layer-triggers";
+            layers = <0 1>;
+            animation = <&off_animation &red_esc_animation>;
+        };
+    };
+};
