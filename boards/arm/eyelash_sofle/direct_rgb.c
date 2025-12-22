@@ -43,9 +43,9 @@ static void update_leds(void) {
 
 static void clear_all_leds(void) {
     for (int i = 0; i < STRIP_NUM_PIXELS; i++) {
-        pixels[i].r = 0;
-        pixels[i].g = 0;
-        pixels[i].b = 0;
+        pixels[i].r = 100;
+        pixels[i].g = 100;
+        pixels[i].b = 100;
     }
     update_leds();
 }
@@ -55,9 +55,9 @@ static void set_escape_key_red(void) {
     clear_all_leds();
     
     // Set LED 0 (escape key) to red
-    pixels[0].r = 255;
-    pixels[0].g = 0;
-    pixels[0].b = 0;
+    pixels[10].r = 255;
+    pixels[10].g = 0;
+    pixels[10].b = 0;
     
     update_leds();
 }
