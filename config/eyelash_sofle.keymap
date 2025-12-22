@@ -38,14 +38,6 @@
         tap-ms = <100>;
     };
 
-    behaviors {
-        rgb_fx: rgb_fx {
-            compatible = "zmk,behavior-rgb-fx";
-            #binding-cells = <1>;
-            control-group = <&fx_group>;
-        };
-    };
-
     macros {
         rgb_layer_1: rgb_layer_1 {
             compatible = "zmk,behavior-macro";

@@ -1,6 +1,14 @@
 #include <dt-bindings/zmk/rgb_fx.h>
 
 / {
+    behaviors {
+        rgb_fx: rgb_fx {
+            compatible = "zmk,behavior-rgb-fx";
+            #binding-cells = <1>;
+            control-group = <&fx_group>;
+        };
+    };
+
     chosen {
         zmk,underglow = &rgb;
     };
