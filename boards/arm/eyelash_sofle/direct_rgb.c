@@ -81,10 +81,12 @@ static int layer_state_changed_listener(const zmk_event_t *eh) {
     const struct zmk_layer_state_changed *ev = as_zmk_layer_state_changed(eh);
     
     if (ev == NULL) {
+        printk("DIRECT_RGB: ERROR - Invalid layer state changed event\n");
         LOG_ERR("Invalid layer state changed event");
         return -EINVAL;
     }
 
+    printk("DIRECT_RGB: Layer state changed: layer=%d, state=%d\n", ev->layer, ev->state);
     LOG_DBG("Layer state changed: layer=%d, state=%d", ev->layer, ev->state);
 
     // Check if layer 1 is being activated or deactivated
@@ -116,19 +118,30 @@ static void test_work_handler(struct k_work *work) {
 }
 
 static int direct_rgb_init(void) {
+    // Force a printk to verify code is running
+    printk("DIRECT_RGB: Initializing direct RGB control\n");
     LOG_INF("Initializing direct RGB control");
     
+    if (led_strip == NULL) {
+        printk("DIRECT_RGB: ERROR - led_strip device pointer is NULL\n");
+        LOG_ERR("LED strip device pointer is NULL");
+        return -ENODEV;
+    }
+    
     if (!device_is_ready(led_strip)) {
+        printk("DIRECT_RGB: ERROR - LED strip device not ready at init\n");
         LOG_ERR("LED strip device not ready at init");
         return -ENODEV;
     }
 
+    printk("DIRECT_RGB: LED strip device ready, %d pixels\n", STRIP_NUM_PIXELS);
     LOG_INF("LED strip device ready, %d pixels", STRIP_NUM_PIXELS);
 
     // Initialize all LEDs to off
     clear_all_leds();
     
     // Test: Set first LED to red briefly to verify hardware works
+    printk("DIRECT_RGB: Testing LED 0 with red color\n");
     LOG_INF("Testing LED 0 with red color");
     pixels[0].r = 255;
     pixels[0].g = 0;
@@ -139,10 +152,12 @@ static int direct_rgb_init(void) {
     k_work_init_delayable(&test_work, test_work_handler);
     k_work_schedule(&test_work, K_MSEC(1000));
     
+    printk("DIRECT_RGB: Direct RGB initialization complete\n");
     LOG_INF("Direct RGB initialization complete");
 
     return 0;
 }
 
-SYS_INIT(direct_rgb_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
+// Use POST_KERNEL with lower priority to ensure device is ready
+SYS_INIT(direct_rgb_init, POST_KERNEL, 90);
 
