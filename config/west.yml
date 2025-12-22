@@ -8,6 +8,8 @@ manifest:
       # - https://docs.zephyrproject.org/3.5.0/develop/west/manifest.html#projects
   #  - name: gpeye
   #    url-base: https://github.com/GPeye
+    - name: crystalplanet
+      url-base: https://github.com/crystalplanet
   projects:
    # - name: mario-peripheral-animation
    #   remote: gpeye
@@ -19,5 +21,9 @@ manifest:
       remote: zmkfirmware
       revision: v0.3.0
       import: app/west.yml
+    - name: zmk-rgb-fx
+      remote: crystalplanet
+      revision: main
+      path: modules/zmk-rgb-fx
   self:
     path: boards
