@@ -44,7 +44,7 @@
 
     rgb: rgb_strip {
         compatible = "zmk,rgb-fx";
-        drivers = <&ws2812>;
+        drivers = <&led_strip>;
         chain-lengths = <68>;
         pixels = <&pixels>;
     };
