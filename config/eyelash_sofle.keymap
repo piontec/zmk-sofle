@@ -52,6 +52,7 @@
     rgb_fx {
         compatible = "zmk,rgb-fx";
         drivers = <&led_strip>;
+        chain-lengths = <64>;  // One LED per key (64 keys total)
         
         layer_1 {
             keys = <0>;  // ESC key position
