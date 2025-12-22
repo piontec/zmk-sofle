@@ -51,6 +51,7 @@
 
     rgb_fx {
         compatible = "zmk,rgb-fx";
+        drivers = <&led_strip>;
         
         layer_1 {
             keys = <0>;  // ESC key position
