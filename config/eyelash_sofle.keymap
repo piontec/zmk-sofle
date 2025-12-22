@@ -39,11 +39,6 @@
     };
 
     behaviors {
-        ug_red: ug_red {
-            compatible = "zmk,behavior-underglow-rgb";
-            #binding-cells = <3>;
-            rgb = <255 0 0>;  // Red color
-        };
     };
 
     combos {
@@ -66,7 +61,9 @@
         
         layer_1 {
             layer-id = <1>;
-            bindings = <&ug_red &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none>;  // Layer 1 - highlight ESC key (position 0) in red, rest no color
+            // TODO: Figure out correct format for color bindings
+            // For now, using &none for all keys to test structure
+            bindings = <&none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none &none>;  // Layer 1 - placeholder (need to find correct color format)
         };
     };
 
