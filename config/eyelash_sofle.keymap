@@ -9,6 +9,7 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/rgb.h>
+#include <dt-bindings/zmk/rgb_colors.h>
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 
@@ -114,6 +115,22 @@
             >;
          display-name = "layer4";
             sensor-bindings = <&scroll_encoder>;
+        };
+    };
+    underglow-layer {
+        compatible = "zmk,underglow-layer";
+        
+        // Layer 0 (Base) - No highlights
+        default_rgb {
+            bindings = <&ug ___ &ug ___ &ug ___>; // Add one &ug ___ for every LED
+        };
+
+        // Layer 1 (Lower) - Highlight specific keys
+        lower_rgb {
+            layer-id = <1>;
+            bindings = <
+                &ug RED &ug RED &ug ___ // This would turn the first two LEDs Red
+            >;
         };
     };
 };
