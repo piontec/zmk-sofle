@@ -60,13 +60,13 @@
 
     off_fx: off_fx {
         compatible = "zmk,rgb-fx-solid";
-        colors = <HSL(0 0 0)>;
+        colors = <HSL(0, 0, 0)>;
     };
 
     red_esc_fx: red_esc_fx {
         compatible = "zmk,rgb-fx-solid";
         key-pixels = <0>;
-        colors = <HSL(0 100 50)>;
+        colors = <HSL(0, 100, 50)>;
     };
 
     scroll_encoder: scroll_encoder {
