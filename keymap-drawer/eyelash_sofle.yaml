@@ -57,7 +57,7 @@ layers:
   - $$mdi:apple-keyboard-control$$
   - $$mdi:apple-keyboard-command$$
   - $$mdi:apple-keyboard-option$$
-  - layer1
+  - '&rgb_layer_1'
   - $$mdi:keyboard-space$$
   - {t: '$$mdi:keyboard-return$$', type: enter}
   - $$mdi:keyboard-space$$
@@ -106,14 +106,14 @@ layers:
   - {t: '[', s: '{'}
   - {t: ']', s: '}'}
   - {t: '$$mdi:transfer$$', type: trans}
-  - '&anim_toggle'
-  - '&anim_toggle'
-  - '&anim_next'
-  - '&anim_prev'
+  - '&rgb_fx RGBFX_TOGGLE(0)'
+  - '&rgb_fx RGBFX_TOGGLE(0)'
+  - '&rgb_fx RGBFX_NEXT(0)'
+  - '&rgb_fx RGBFX_PREVIOUS(0)'
   - RGB SPI
   - {t: '$$mdi:menu-right$$', s: '$$mdi:mouse$$'}
-  - '&anim_bri'
-  - '&anim_brd'
+  - '&rgb_fx RGBFX_BRIGHTEN(0)'
+  - '&rgb_fx RGBFX_DIM(0)'
   - Ins
   - F11
   - F12
@@ -122,7 +122,7 @@ layers:
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
-  - {type: held}
+  - {t: '$$mdi:transfer$$', type: trans}
   - {t: '$$mdi:transfer$$', type: trans}
   - $$mdi:mouse-left-click-outline$$
   - {t: '$$mdi:transfer$$', type: trans}
