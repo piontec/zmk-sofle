@@ -29,6 +29,10 @@
 
 &soft_off { hold-time-ms = <2000>; };
 
+&led_strip {
+    #pixel-cells = <1>;
+};
+
 / {
     behaviors {
         rgb_fx: rgb_fx {
