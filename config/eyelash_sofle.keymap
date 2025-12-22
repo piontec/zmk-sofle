@@ -9,7 +9,7 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/rgb.h>
-#include <dt-bindings/zmk/animation.h>
+#include <dt-bindings/zmk/rgb_fx.h>
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 
@@ -39,6 +39,22 @@
     };
 
     behaviors {
+        rgb_fx: rgb_fx {
+            compatible = "zmk,behavior-rgb-fx";
+            #binding-cells = <1>;
+            control-group = <&fx_group>;
+        };
+    };
+
+    macros {
+        rgb_layer_1: rgb_layer_1 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <0>;
+            tap-ms = <0>;
+            bindings = <&rgb_fx RGBFX_SELECT(0, 1) &mo 1>,
+                       <&rgb_fx RGBFX_SELECT(0, 0)>;
+        };
     };
 
     combos {
@@ -59,7 +75,7 @@
 &kp TAB     &kp Q      &kp W         &kp E         &kp R   &kp T        &kp DOWN_ARROW   &kp Y      &kp U      &kp I      &kp O            &kp P       &kp BSLH
 &kp CAPS    &kp A      &kp S         &kp D         &kp F   &kp G        &kp LEFT_ARROW   &kp H      &kp J      &kp K      &kp L            &kp SEMI    &kp APOS
 &kp LSHFT   &kp Z      &kp X         &kp C         &kp V   &kp B        &kp RIGHT_ARROW  &kp N      &kp M      &kp COMMA  &kp DOT          &kp FSLH    &kp ENTER
-&kp C_MUTE  &kp LCTRL  &kp LEFT_GUI  &kp LEFT_ALT  &mo 1   &kp SPACE    &kp ENTER        &kp SPACE  &kp ENTER  &mo 2      &kp RIGHT_SHIFT  &kp DELETE
+&kp C_MUTE  &kp LCTRL  &kp LEFT_GUI  &kp LEFT_ALT  &rgb_layer_1   &kp SPACE    &kp ENTER        &kp SPACE  &kp ENTER  &mo 2      &kp RIGHT_SHIFT  &kp DELETE
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOL_DN>;
@@ -71,7 +87,7 @@
 &kp GRAVE   &kp F1           &kp F2          &kp F3           &kp F4           &kp F5             &mmv MOVE_UP     &kp F6           &kp F7           &kp F8      &kp F9     &kp F10           &trans
 &trans      &kp GRAVE        &mkp LCLK       &mkp MCLK        &mkp RCLK        &mkp MB4           &mmv MOVE_DOWN   &kp PG_UP        &kp END          &kp UP      &kp HOME   &kp MINUS         &kp EQUAL
 &trans      &kp TILDE        &trans          &trans           &trans           &mkp MB5           &mmv MOVE_LEFT   &kp PG_DN        &kp LEFT         &kp DOWN    &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
-&trans      &anim_toggle     &anim_toggle    &anim_next       &anim_prev       &rgb_ug RGB_SPI    &mmv MOVE_RIGHT  &anim_bri        &anim_brd        &kp INSERT  &kp F11    &kp F12           &trans
+&trans      &rgb_fx RGBFX_TOGGLE(0)  &rgb_fx RGBFX_TOGGLE(0)  &rgb_fx RGBFX_NEXT(0)  &rgb_fx RGBFX_PREVIOUS(0)  &rgb_ug RGB_SPI    &mmv MOVE_RIGHT  &rgb_fx RGBFX_BRIGHTEN(0)  &rgb_fx RGBFX_DIM(0)  &kp INSERT  &kp F11    &kp F12           &trans
 &kp C_MUTE  &trans           &trans          &trans           &trans           &trans             &mkp LCLK        &trans           &trans           &trans      &trans     &trans
             >;
 
@@ -118,3 +134,4 @@
         };
     };
 };
+
