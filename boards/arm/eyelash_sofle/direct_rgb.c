@@ -159,5 +159,6 @@ static int direct_rgb_init(void) {
 }
 
 // Use POST_KERNEL with lower priority to ensure device is ready
+// Priority 90 is after most drivers but before APPLICATION level
 SYS_INIT(direct_rgb_init, POST_KERNEL, 90);
 

@@ -22,7 +22,7 @@
         zephyr,flash = &flash0;
         zmk,kscan = &kscan0;
         zmk,battery = &vbatt;
-        zmk,underglow = &led_strip;
+        // zmk,underglow = &led_strip; // Disabled - using custom RGB control
         zmk,physical-layout = &eyelash_sofle_layout;
         zmk,backlight = &backlight;
     };
