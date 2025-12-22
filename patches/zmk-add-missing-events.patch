@@ -1,0 +1,42 @@
+diff --git a/app/include/zmk/events/split_peripheral_layer_changed.h b/app/include/zmk/events/split_peripheral_layer_changed.h
+new file mode 100644
+index 0000000..a1b2c3d
+--- /dev/null
++++ b/app/include/zmk/events/split_peripheral_layer_changed.h
+@@ -0,0 +1,18 @@
++/*
++ * Copyright (c) 2024 The ZMK Contributors
++ *
++ * SPDX-License-Identifier: MIT
++ */
++
++#pragma once
++
++#include <zephyr/kernel.h>
++#include <zmk/event_manager.h>
++
++struct zmk_split_peripheral_layer_changed {
++    uint8_t layer;
++    bool state;
++};
++
++ZMK_EVENT_DECLARE(zmk_split_peripheral_layer_changed);
++
+diff --git a/app/src/events/split_peripheral_layer_changed.c b/app/src/events/split_peripheral_layer_changed.c
+new file mode 100644
+index 0000000..b2c3d4e
+--- /dev/null
++++ b/app/src/events/split_peripheral_layer_changed.c
+@@ -0,0 +1,12 @@
++/*
++ * Copyright (c) 2024 The ZMK Contributors
++ *
++ * SPDX-License-Identifier: MIT
++ */
++
++#include <zephyr/kernel.h>
++#include <zmk/events/split_peripheral_layer_changed.h>
++
++ZMK_EVENT_IMPL(zmk_split_peripheral_layer_changed);
++
+

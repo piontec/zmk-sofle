@@ -1,0 +1,16 @@
+name: Build ZMK firmware (Patched)
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - "keymap-drawer/**"
+
+jobs:
+  build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
+    with:
+      # We'll patch ZMK after west update in a custom step
+      # This requires modifying the workflow to add a patching step
+      # For now, use the fork approach described in patches/README.md
+      config-dir: config
+
