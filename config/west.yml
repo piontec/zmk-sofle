@@ -9,9 +9,9 @@ manifest:
   #  - name: gpeye
   #    url-base: https://github.com/GPeye
   projects:
-   # - name: mario-peripheral-animation
-   #   remote: gpeye
-   #    revision: main 
+    # - name: mario-peripheral-animation
+    #   remote: gpeye
+    #    revision: main
     - name: eyelash_sofle
       url: https://github.com/a741725193/zmk-sofle
       revision: main
