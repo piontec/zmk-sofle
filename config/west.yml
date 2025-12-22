@@ -5,7 +5,7 @@ manifest:
   projects:
     - name: zmk
       remote: darknao
-      revision: rgb-layer-24.12
+      revision: zmk-perkey_ug
       import: app/west.yml
   self:
     path: boards
