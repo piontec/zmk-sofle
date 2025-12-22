@@ -49,6 +49,20 @@
         };
     };
 
+    underglow-layer {
+        compatible = "zmk,underglow-layer";
+        
+        layer0 {
+            // Default layer - no key highlighting
+        };
+        
+        layer_1 {
+            // Layer 1 - highlight ESC key (position 0) in red
+            keys = <0>;  // ESC key position
+            color = <255 0 0>;  // Red color (R G B)
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
