@@ -106,14 +106,14 @@ layers:
   - {t: '[', s: '{'}
   - {t: ']', s: '}'}
   - {t: '$$mdi:transfer$$', type: trans}
-  - RGB OFF
-  - RGB ON
-  - RGB EFF
-  - RGB EFR
+  - '&anim_toggle'
+  - '&anim_toggle'
+  - '&anim_next'
+  - '&anim_prev'
   - RGB SPI
   - {t: '$$mdi:menu-right$$', s: '$$mdi:mouse$$'}
-  - RGB BRI
-  - RGB BRD
+  - '&anim_bri'
+  - '&anim_brd'
   - Ins
   - F11
   - F12
