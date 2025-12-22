@@ -2,6 +2,8 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: crystalplanet
+      url-base: https://github.com/crystalplanet
       # Additional modules containing boards/shields/custom code can be listed here as well.
       # See:
       # - https://zmk.dev/docs/features/modules
@@ -9,9 +11,9 @@ manifest:
   #  - name: gpeye
   #    url-base: https://github.com/GPeye
   projects:
-   # - name: mario-peripheral-animation
-   #   remote: gpeye
-   #    revision: main 
+    # - name: mario-peripheral-animation
+    #   remote: gpeye
+    #    revision: main
     - name: eyelash_sofle
       url: https://github.com/a741725193/zmk-sofle
       revision: main
@@ -19,5 +21,8 @@ manifest:
       remote: zmkfirmware
       revision: v0.3.0
       import: app/west.yml
+    - name: zmk-rgb-fx
+      remote: crystalplanet
+      revision: main
   self:
     path: boards

@@ -9,6 +9,7 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/rgb.h>
+#include <dt-bindings/zmk/rgb_fx.h>
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 
@@ -114,6 +115,30 @@
             >;
          display-name = "layer4";
             sensor-bindings = <&scroll_encoder>;
+        };
+    };
+    {
+    /* The FX node manages the "Logic" of the LEDs */
+    rgb_fx: rgb_fx {
+        compatible = "zmk,rgb-fx-underglow";
+        
+        /* Map your 58 keys to your LED indices */
+        key-pixels = <
+            0 1 2 3 4 5       6 7 8 9 10 11
+            12 13 14 15 16 17 18 19 20 21 22 23
+            24 25 26 27 28 29 30 31 32 33 34 35
+            36 37 38 39 40 41 42 43 44 45 46 47
+                  48 49 50 51 52 53 54 55 56 57
+        >;
+
+        /* This is the "Effect" for Layer 1 */
+        nav_layer_fx {
+            compatible = "zmk,rgb-fx-layer-highlight";
+            layer-id = <1>;
+            /* Highlight specific keys by their matrix index (not LED index) */
+            /* This example highlights keys 14, 15, 16 in Red */
+            highlight-keys = <14 15 16>;
+            color = <255 0 0>; // Red (RGB format)
         };
     };
 };
