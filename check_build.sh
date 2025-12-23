@@ -1,13 +1,19 @@
 #!/bin/bash
 
 # Script to monitor GitHub Actions build results for zmk-sofle
-# Usage: ./check_build.sh [--watch] [--limit N] [--commit] [--message "commit message"]
+# Usage: 
+#   ./check_build.sh                    - Check build status once
+#   ./check_build.sh --watch            - Continuously monitor build status
+#   ./check_build.sh --auto             - Run in background, auto-start on login
+#   ./check_build.sh --commit           - Commit and push changes, then monitor
+#   ./check_build.sh --limit N          - Show N workflow runs
 
 set -e
 
 WATCH=false
 LIMIT=5
 AUTO_COMMIT=false
+AUTO_MODE=false
 COMMIT_MESSAGE=""
 REPO_OWNER=""
 REPO_NAME=""
@@ -16,6 +22,11 @@ REPO_NAME=""
 while [[ $# -gt 0 ]]; do
     case $1 in
         --watch|-w)
+            WATCH=true
+            shift
+            ;;
+        --auto|-a)
+            AUTO_MODE=true
             WATCH=true
             shift
             ;;
@@ -33,7 +44,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         *)
             echo "Unknown option: $1"
-            echo "Usage: $0 [--watch] [--limit N] [--commit] [--message \"commit message\"]"
+            echo "Usage: $0 [--watch|--auto] [--limit N] [--commit] [--message \"commit message\"]"
             exit 1
             ;;
     esac
@@ -200,17 +211,77 @@ check_build_status() {
 
 # Watch mode - continuously check build status
 watch_build() {
+    local interval=30  # Default 30 seconds
+    local last_status=""
+    local notification_sent=false
+    
     echo "Watching build status (press Ctrl+C to stop)..."
+    echo "Checking every ${interval} seconds"
     echo ""
     
     while true; do
-        clear
-        echo "Last checked: $(date)"
-        echo ""
-        check_build_status
-        echo ""
-        echo "Refreshing in 10 seconds... (Ctrl+C to stop)"
-        sleep 10
+        local current_time=$(date '+%Y-%m-%d %H:%M:%S')
+        local runs_json=$(get_workflow_runs)
+        
+        if [[ -z "$runs_json" ]] || [[ "$runs_json" == "[]" ]]; then
+            echo "[$current_time] No workflow runs found"
+            sleep $interval
+            continue
+        fi
+        
+        local latest_status=$(echo "$runs_json" | jq -r ".[0].status")
+        local latest_conclusion=$(echo "$runs_json" | jq -r ".[0].conclusion // \"\"")
+        local latest_branch=$(echo "$runs_json" | jq -r ".[0].headBranch")
+        local run_id=$(echo "$runs_json" | jq -r ".[0].databaseId")
+        local current_branch=$(git branch --show-current 2>/dev/null || echo "unknown")
+        
+        # Only show output if status changed or if it's in progress
+        if [[ "$latest_status" != "$last_status" ]] || [[ "$latest_status" == "in_progress" ]] || [[ "$latest_status" == "queued" ]]; then
+            clear
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "Build Monitor - Last checked: $current_time"
+            echo "Current branch: $current_branch"
+            echo "Latest build branch: $latest_branch"
+            echo ""
+            
+            if [[ "$latest_status" == "completed" ]]; then
+                if [[ "$latest_conclusion" == "success" ]]; then
+                    echo "✓ Build SUCCESS"
+                    if [[ "$notification_sent" == false ]]; then
+                        notify-send "ZMK Build" "Build completed successfully!" 2>/dev/null || true
+                        notification_sent=true
+                    fi
+                elif [[ "$latest_conclusion" == "failure" ]]; then
+                    echo "✗ Build FAILED"
+                    echo ""
+                    echo "Run ID: $run_id"
+                    echo "View logs: gh run view $run_id --log-failed"
+                    if [[ "$notification_sent" == false ]]; then
+                        notify-send "ZMK Build" "Build failed! Check logs." --urgency=critical 2>/dev/null || true
+                        notification_sent=true
+                    fi
+                else
+                    echo "? Build completed with conclusion: $latest_conclusion"
+                fi
+            elif [[ "$latest_status" == "in_progress" ]] || [[ "$latest_status" == "queued" ]]; then
+                echo "⏳ Build $latest_status"
+                echo ""
+                echo "Run ID: $run_id"
+                echo "View progress: gh run view $run_id --web"
+                notification_sent=false
+            else
+                echo "? Build status: $latest_status"
+            fi
+            
+            echo ""
+            echo "Next check in ${interval} seconds... (Ctrl+C to stop)"
+            last_status="$latest_status"
+        else
+            # Silent mode - just show a dot to indicate it's running
+            echo -n "."
+        fi
+        
+        sleep $interval
     done
 }
 
@@ -261,12 +332,48 @@ auto_commit_and_push() {
     sleep 5
 }
 
+# Setup auto-start (runs in background)
+setup_auto_start() {
+    local script_path=$(realpath "$0")
+    local systemd_user_dir="$HOME/.config/systemd/user"
+    
+    mkdir -p "$systemd_user_dir"
+    
+    cat > "$systemd_user_dir/zmk-build-monitor.service" <<EOF
+[Unit]
+Description=ZMK Build Monitor
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=$script_path --watch
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
+EOF
+
+    systemctl --user daemon-reload
+    systemctl --user enable zmk-build-monitor.service
+    systemctl --user start zmk-build-monitor.service
+    
+    echo "✓ Auto-monitoring enabled"
+    echo "  Service installed at: $systemd_user_dir/zmk-build-monitor.service"
+    echo ""
+    echo "To check status: systemctl --user status zmk-build-monitor"
+    echo "To stop: systemctl --user stop zmk-build-monitor"
+    echo "To disable: systemctl --user disable zmk-build-monitor"
+}
+
 # Main execution
 if [[ "$AUTO_COMMIT" == "true" ]]; then
     auto_commit_and_push
 fi
 
-if [[ "$WATCH" == "true" ]]; then
+if [[ "$AUTO_MODE" == "true" ]]; then
+    setup_auto_start
+elif [[ "$WATCH" == "true" ]]; then
     watch_build
 else
     check_build_status

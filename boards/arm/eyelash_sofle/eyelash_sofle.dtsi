@@ -93,35 +93,33 @@
     rgb-fx {
         compatible = "zmk,rgb-fx";
         drivers = <&led_strip>;
-        chain-lengths = <7>; // Number of LEDs in the strip (from board config)
-        
-        // Map keys to pixels - ESC key (position 0) maps to LED 0
-        // If you have per-key RGB (62 LEDs), update chain-lengths to <62> and add all key mappings
-        key-pixels = <0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
-        
-        pixels = <
-            &pixel 0 0
-            &pixel 1 0
-            &pixel 2 0
-            &pixel 3 0
-            &pixel 4 0
-            &pixel 5 0
-            &pixel 6 0
-        >;
+        chain-lengths = <7>;
 
-        // Layer 1 effect: highlight ESC key (position 0) in red
-        rgb_fx_layer1: layer1_effect {
+        key-pixels = <>;
+
+        pixels
+            = <&pixel 0 0>
+            , <&pixel 1 0>
+            , <&pixel 2 0>
+            , <&pixel 3 0>
+            , <&pixel 4 0>
+            , <&pixel 5 0>
+            , <&pixel 6 0>
+            ;
+
+        layer1_effect: animation_0 {
             compatible = "zmk,rgb-fx-static";
             status = "okay";
-            pixels = <0>; // ESC key at position 0 (maps to LED 0 via key-pixels)
-            colors = <HSL(0, 100, 50)>; // Red color in HSL
+
+            pixels = <0>;
+            colors = <HSL(0, 100, 50)>;
         };
 
-        // Root effect - will be composed based on active layer
         rgb_fx_root: root_animation {
             compatible = "zmk,rgb-fx-compose";
             status = "okay";
-            fx = <&rgb_fx_layer1>;
+
+            fx = <&layer1_effect>;
         };
     };
 };
