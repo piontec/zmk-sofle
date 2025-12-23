@@ -29,10 +29,6 @@
 
 &soft_off { hold-time-ms = <2000>; };
 
-&chosen {
-    zmk,rgb-fx = &rgb_fx_root;
-};
-
 / {
     scroll_encoder: scroll_encoder {
         compatible = "zmk,behavior-sensor-rotate";
