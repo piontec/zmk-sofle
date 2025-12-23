@@ -9,6 +9,7 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/rgb.h>
+#include <zmk-rgb-fx/rgb-fx.dtsi>
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 
@@ -28,6 +29,10 @@
 
 &soft_off { hold-time-ms = <2000>; };
 
+&chosen {
+    zmk,rgb-fx = &rgb_fx_root;
+};
+
 / {
     scroll_encoder: scroll_encoder {
         compatible = "zmk,behavior-sensor-rotate";
@@ -38,6 +43,92 @@
     };
 
     behaviors {
+    };
+
+    // RGB FX configuration for per-layer RGB highlighting
+    rgb_fx: rgb_fx {
+        compatible = "zmk,rgb-fx";
+        drivers = <&led_strip>;
+        chain-lengths = <62>; // Number of per-key LEDs
+        key-pixels = <0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61>;
+        
+        pixels = <
+            &pixel 0 0
+            &pixel 1 0
+            &pixel 2 0
+            &pixel 3 0
+            &pixel 4 0
+            &pixel 5 0
+            &pixel 6 0
+            &pixel 7 0
+            &pixel 8 0
+            &pixel 9 0
+            &pixel 10 0
+            &pixel 11 0
+            &pixel 12 0
+            &pixel 13 0
+            &pixel 14 0
+            &pixel 15 0
+            &pixel 16 0
+            &pixel 17 0
+            &pixel 18 0
+            &pixel 19 0
+            &pixel 20 0
+            &pixel 21 0
+            &pixel 22 0
+            &pixel 23 0
+            &pixel 24 0
+            &pixel 25 0
+            &pixel 26 0
+            &pixel 27 0
+            &pixel 28 0
+            &pixel 29 0
+            &pixel 30 0
+            &pixel 31 0
+            &pixel 32 0
+            &pixel 33 0
+            &pixel 34 0
+            &pixel 35 0
+            &pixel 36 0
+            &pixel 37 0
+            &pixel 38 0
+            &pixel 39 0
+            &pixel 40 0
+            &pixel 41 0
+            &pixel 42 0
+            &pixel 43 0
+            &pixel 44 0
+            &pixel 45 0
+            &pixel 46 0
+            &pixel 47 0
+            &pixel 48 0
+            &pixel 49 0
+            &pixel 50 0
+            &pixel 51 0
+            &pixel 52 0
+            &pixel 53 0
+            &pixel 54 0
+            &pixel 55 0
+            &pixel 56 0
+            &pixel 57 0
+            &pixel 58 0
+            &pixel 59 0
+            &pixel 60 0
+            &pixel 61 0
+        >;
+    };
+
+    // Layer 1 effect: highlight ESC key (position 0) in red
+    rgb_fx_layer1: rgb_fx_layer1 {
+        compatible = "zmk,rgb-fx-static";
+        pixels = <&pixel 0 0>; // ESC key at position 0
+        colors = <HSL(0, 100, 50)>; // Red color in HSL (Hue=0, Saturation=100%, Lightness=50%)
+    };
+
+    // Root effect - will be composed based on active layer
+    rgb_fx_root: rgb_fx_root {
+        compatible = "zmk,rgb-fx-compose";
+        fx = <&rgb_fx_layer1>;
     };
 
     combos {
