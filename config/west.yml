@@ -6,6 +6,8 @@ manifest:
       # See:
       # - https://zmk.dev/docs/features/modules
       # - https://docs.zephyrproject.org/3.5.0/develop/west/manifest.html#projects
+    - name: crystalplanet
+      url-base: https://github.com/crystalplanet
   #  - name: gpeye
   #    url-base: https://github.com/GPeye
   projects:
@@ -19,5 +21,8 @@ manifest:
       remote: zmkfirmware
       revision: v0.3.0
       import: app/west.yml
+    - name: zmk-rgb-fx
+      remote: crystalplanet
+      revision: main
   self:
     path: boards
