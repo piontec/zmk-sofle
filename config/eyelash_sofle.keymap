@@ -125,6 +125,15 @@
         status = "okay";
         drivers = <&led_strip>;
         chain-lengths = <7>;
+        pixels
+            = <&pixel 0 0>
+            , <&pixel 1 0>
+            , <&pixel 2 0>
+            , <&pixel 3 0>
+            , <&pixel 4 0>
+            , <&pixel 5 0>
+            , <&pixel 6 0>
+            ;
 
         // Define the control group as the root animation
         root_animation: root_animation {
