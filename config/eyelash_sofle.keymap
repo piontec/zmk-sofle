@@ -123,6 +123,8 @@
     rgb-fx {
         compatible = "zmk,rgb-fx";
         status = "okay";
+        drivers = <&led_strip>;
+        chain-lengths = <7>;
 
         // Define the control group as the root animation
         root_animation: root_animation {
