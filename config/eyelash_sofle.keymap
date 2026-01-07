@@ -33,6 +33,7 @@
         compatible = "zmk,rgb-fx";
         status = "okay";
         drivers = <&led_strip>;
+        chain-lengths = <7>;
     };
 
     scroll_encoder: scroll_encoder {
