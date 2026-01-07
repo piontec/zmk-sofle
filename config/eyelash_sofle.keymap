@@ -10,7 +10,7 @@
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/rgb_fx.h>
-#include <rgb_fx.dtsi>
+
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 
@@ -40,6 +40,10 @@
     };
 
     behaviors {
+        /omit-if-no-ref/ rgbfx: behavior_rgb_fx {
+            compatible = "zmk,behavior-rgb-fx";
+            #binding-cells = <1>;
+        };
     };
 
     combos {
@@ -161,6 +165,11 @@
             pixels = <0>; // Escape key usually
             colors = <HSL(0, 100, 50)>; 
         };
+    };
+
+    /omit-if-no-ref/ pixel: rgb_fx_pixel {
+        compatible = "zmk,rgb-fx-pixel";
+        #pixel-cells = <2>;
     };
 
     macros {
