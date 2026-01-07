@@ -164,8 +164,6 @@
     };
 
     macros {
-        compatible = "zmk,behavior-macro";
-        #binding-cells = <0>;
 
         // Macro to activate Layer 1 and its RGB effect
         macro_layer_1: macro_layer_1 {
